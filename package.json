@@ -1,0 +1,31 @@
+{
+  "name": "giselles-concept",
+  "version": "1.0.0",
+  "description": "Luxury organic wellness bakery e-commerce experience featuring artisanal plant-based pastries, responsive lookbook UI, and client-side cart engine.",
+  "main": "script.js",
+  "scripts": {
+    "test": "node tests/cart.test.js",
+    "start": "npx serve ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sedmugen/giselles-concept.git"
+  },
+  "keywords": [
+    "ecommerce",
+    "javascript",
+    "html5",
+    "css3",
+    "vanilla-js",
+    "design-system",
+    "responsive-design",
+    "dtc-brand",
+    "luxury-retail"
+  ],
+  "author": "sedmugen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sedmugen/giselles-concept/issues"
+  },
+  "homepage": "https://github.com/sedmugen/giselles-concept#readme"
+}
