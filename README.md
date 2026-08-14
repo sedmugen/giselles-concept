@@ -32,7 +32,13 @@
 
 ## Overview & Motivation
 
-**Giselle's Concept** translates high-end gastronomic storytelling and metabolic wellness into an immersive digital Direct-to-Consumer (DTC) storefront. Developed as a flagship open-source frontend project, it demonstrates how to achieve rich interactivity, fluid animations, conversion-focused user interfaces, and robust client-side state management without relying on heavy frontend frameworks.
+**Giselle's Concept** translates high-end gastronomic storytelling and metabolic wellness into an immersive digital Direct-to-Consumer (DTC) storefront. Developed as a flagship open-source frontend project, it reimagines the digital presence of [**Giselle's Vegan Kitchen**](https://www.gisellesvegankitchen.com) (Laguna Beach, CA) by transforming a standard retail storefront into an editorial, luxury lifestyle lookbook.
+
+### The Re-imagination Concept
+While the original reference site ([www.gisellesvegankitchen.com](https://www.gisellesvegankitchen.com)) operates on a traditional catalog e-commerce layout, this project re-architects the brand experience from the ground up:
+* **Editorial Lookbook Storytelling**: Replaces cluttered grid blocks with expansive editorial whitespace, high-fashion serif typography (*Cormorant Garamond*), and interactive ingredient ledger accordions.
+* **Modern DTC Micro-Interactions**: Introduces scroll-linked glassmorphism navigation, dynamic logo handoffs, 3-stage loading buttons, and texture zoom lightboxes.
+* **Zero-Framework Performance**: Eliminates third-party app bloat and framework overhead with native semantic HTML5, CSS3 Custom Properties, and modular ES6+ JavaScript.
 
 Key engineering goals:
 * **Frameworkless Architecture**: High-performance, zero-dependency implementation utilizing pure semantic HTML5, CSS3 Custom Properties, and Vanilla ES6+ JavaScript.
@@ -166,4 +172,4 @@ npm start
 
 * **License**: Released under the [MIT License](LICENSE).
 * **Author**: Created and maintained by [**sedmugen**](https://github.com/sedmugen).
-* **Brand Concept**: Conceptually inspired by *Giselle's Vegan Kitchen* (Los Angeles, CA). All imagery and trademark concept assets are curated for educational, non-commercial open-source demonstration.
+* **Design & Inspiration**: Conceptually re-imagined from the real-world bakery [**Giselle's Vegan Kitchen**](https://www.gisellesvegankitchen.com) (Laguna Beach, CA). All original product concepts, imagery, and brand marks are utilized under fair-use educational demonstration for open-source design and technical portfolio purposes.
