@@ -65,6 +65,16 @@ body {
   background-color: var(--bg-primary);
 }
 
+/* Reduced Motion Support for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Accessible Focus States */
 :focus-visible {
   outline: 2px solid var(--accent-gold);
@@ -246,6 +256,16 @@ img {
 .btn-text:hover::after {
   transform: scaleX(0);
   transform-origin: bottom left;
+}
+
+.btn-nav-text {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
 }
 
 /* ==========================================================================

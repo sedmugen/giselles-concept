@@ -115,7 +115,7 @@ const GisellesApp = (() => {
         <div class="toast-title">${escapeHtml(title)}</div>
         <div class="toast-body">${escapeHtml(message)}</div>
       </div>
-      <button class="toast-close" aria-label="Close notification">&times;</button>
+      <button type="button" class="toast-close" aria-label="Close notification">&times;</button>
     `;
 
     container.appendChild(toast);
@@ -261,7 +261,7 @@ const GisellesApp = (() => {
             <h3 class="cart-item-title">${escapeHtml(item.name)}</h3>
             <div class="cart-item-meta">
               <span class="cart-item-price">Rs. ${item.price.toLocaleString()} (${item.quantity}x)</span>
-              <button class="cart-item-remove" data-action="remove-from-cart" data-item-id="${escapeHtml(String(item.id))}" aria-label="Remove ${escapeHtml(item.name)}">
+              <button type="button" class="cart-item-remove" data-action="remove-from-cart" data-item-id="${escapeHtml(String(item.id))}" aria-label="Remove ${escapeHtml(item.name)}">
                 <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Remove
               </button>
             </div>

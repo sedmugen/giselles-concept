@@ -15,6 +15,11 @@
 
   <title>PROTEIN BARS - CHOCOLATE PEANUT BUTTER - DOZEN | Giselle's Vegan Kitchen</title>
   
+  <!-- Favicon & Mobile Theme -->
+  <link rel="icon" type="image/svg+xml" href="assets/brand/logo.svg">
+  <link rel="apple-touch-icon" href="assets/brand/logo.svg">
+  <meta name="theme-color" content="#1C1B18">
+
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="product.css">
   
@@ -50,10 +55,10 @@
           </div>
         </div>
         <div class="header-top-right">
-          <button class="header-utility-link" data-action="preview-notice" data-feature="Search">
+          <button type="button" class="header-utility-link" data-action="preview-notice" data-feature="Search">
             <i data-lucide="search" aria-hidden="true"></i> Search
           </button>
-          <button class="header-utility-link" data-action="preview-notice" data-feature="Customer Account">
+          <button type="button" class="header-utility-link" data-action="preview-notice" data-feature="Customer Account">
             <i data-lucide="user" aria-hidden="true"></i> Log in
           </button>
         </div>
@@ -61,7 +66,7 @@
 
       <!-- Desktop Main Menu Row -->
       <div class="nav-container">
-        <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileNav">
+        <button type="button" class="menu-btn" id="menuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileNav">
           <span></span>
           <span></span>
           <span></span>
@@ -70,8 +75,8 @@
         <nav class="nav-links-left" aria-label="Main Navigation">
           <a href="index.html" class="nav-link">Home</a>
           <a href="product.html" class="nav-link" aria-current="page">Shop</a>
-          <button class="nav-link" data-action="preview-notice" data-feature="Gift Cards" style="background:none;border:none;cursor:pointer;">Gift Card</button>
-          <button class="nav-link" data-action="preview-notice" data-feature="Wholesale" style="background:none;border:none;cursor:pointer;">Wholesale</button>
+          <button type="button" class="nav-link btn-nav-text" data-action="preview-notice" data-feature="Gift Cards">Gift Card</button>
+          <button type="button" class="nav-link btn-nav-text" data-action="preview-notice" data-feature="Wholesale">Wholesale</button>
         </nav>
         
         <a href="index.html" class="logo-link" aria-label="Giselle's Vegan Kitchen - Return to Home">
@@ -79,11 +84,11 @@
         </a>
         
         <div class="nav-links-right">
-          <button class="nav-link" data-action="preview-notice" data-feature="Catering" style="background:none;border:none;cursor:pointer;">Catering</button>
+          <button type="button" class="nav-link btn-nav-text" data-action="preview-notice" data-feature="Catering">Catering</button>
           <a href="index.html#founderStory" class="nav-link">About Us</a>
           <a href="index.html#reviews" class="nav-link">Reviews</a>
           <a href="#footer" class="nav-link">Contact</a>
-          <button class="cart-icon" id="cartToggle" data-action="open-cart" aria-label="Open Shopping Bag">
+          <button type="button" class="cart-icon" id="cartToggle" data-action="open-cart" aria-label="Open Shopping Bag">
             <i data-lucide="shopping-bag" aria-hidden="true"></i>
             <span class="cart-count" id="cartCount">0</span>
           </button>
@@ -96,18 +101,18 @@
   <div class="mobile-nav" id="mobileNav" aria-label="Mobile Navigation">
     <a href="index.html" class="nav-link mobile-link">Home</a>
     <a href="product.html" class="nav-link mobile-link">Shop</a>
-    <button class="nav-link mobile-link" data-action="preview-notice" data-feature="Gift Cards" style="background:none;border:none;cursor:pointer;">Gift Card</button>
-    <button class="nav-link mobile-link" data-action="preview-notice" data-feature="Wholesale" style="background:none;border:none;cursor:pointer;">Wholesale</button>
-    <button class="nav-link mobile-link" data-action="preview-notice" data-feature="Catering" style="background:none;border:none;cursor:pointer;">Catering</button>
+    <button type="button" class="nav-link mobile-link btn-nav-text" data-action="preview-notice" data-feature="Gift Cards">Gift Card</button>
+    <button type="button" class="nav-link mobile-link btn-nav-text" data-action="preview-notice" data-feature="Wholesale">Wholesale</button>
+    <button type="button" class="nav-link mobile-link btn-nav-text" data-action="preview-notice" data-feature="Catering">Catering</button>
     <a href="index.html#founderStory" class="nav-link mobile-link">About Us</a>
     <a href="index.html#reviews" class="nav-link mobile-link">Reviews</a>
     <a href="#footer" class="nav-link mobile-link">Contact</a>
     
     <div class="mobile-utilities">
-      <button class="mobile-utility-link" data-action="preview-notice" data-feature="Search">
+      <button type="button" class="mobile-utility-link" data-action="preview-notice" data-feature="Search">
         <i data-lucide="search" style="width: 16px; height: 16px;" aria-hidden="true"></i> Search
       </button>
-      <button class="mobile-utility-link" data-action="preview-notice" data-feature="Customer Account">
+      <button type="button" class="mobile-utility-link" data-action="preview-notice" data-feature="Customer Account">
         <i data-lucide="user" style="width: 16px; height: 16px;" aria-hidden="true"></i> Log in
       </button>
       <div class="mobile-currency">Currency: PKR ₨</div>
@@ -208,17 +213,17 @@
             <div class="product-qty-row">
               <span class="qty-label">Quantity</span>
               <div class="qty-selector-container">
-                <button class="qty-btn" id="qtyMinus" aria-label="Decrease quantity">
+                <button type="button" class="qty-btn" id="qtyMinus" aria-label="Decrease quantity">
                   <i data-lucide="minus" aria-hidden="true"></i>
                 </button>
                 <label for="qtyInput" class="sr-only">Quantity</label>
                 <input type="text" class="qty-input-field" id="qtyInput" value="1" readonly>
-                <button class="qty-btn" id="qtyPlus" aria-label="Increase quantity">
+                <button type="button" class="qty-btn" id="qtyPlus" aria-label="Increase quantity">
                   <i data-lucide="plus" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
-            <button class="btn-primary btn-add-to-bag" id="btnAddToBag" data-action="add-main-product">
+            <button type="button" class="btn-primary btn-add-to-bag" id="btnAddToBag" data-action="add-main-product">
               <span class="btn-content">Add to Bag <i data-lucide="shopping-bag" class="btn-icon" aria-hidden="true"></i></span>
               <span class="btn-state-loader"><span class="spinner-ring" aria-hidden="true"></span> Adding to Bag...</span>
               <span class="btn-state-success"><i data-lucide="check" class="btn-icon" aria-hidden="true"></i> Added to Bag!</span>
@@ -250,7 +255,7 @@
                 <option value="ca">Shipping Inside California</option>
                 <option value="non-ca">Shipping Outside California</option>
               </select>
-              <button class="btn-check-delivery" id="btnEstimateDelivery">Estimate</button>
+              <button type="button" class="btn-check-delivery" id="btnEstimateDelivery">Estimate</button>
             </div>
             <div class="delivery-result" id="deliveryResult" aria-live="polite">
               Select shipping region to see delivery timeline.
@@ -446,7 +451,7 @@
                 </div>
                 <p class="product-desc">Uji ceremonial matcha blended with cold-pressed coconut shreds, almonds, and cordyceps adaptogens.</p>
                 <div class="product-actions">
-                  <button class="btn-quick-add" data-action="quick-add" data-product-id="5">Add to Bag</button>
+                  <button type="button" class="btn-quick-add" data-action="quick-add" data-product-id="5">Add to Bag</button>
                 </div>
               </div>
             </article>
@@ -465,7 +470,7 @@
                 </div>
                 <p class="product-desc">Organic Madagascar vanilla bean layers infused with delicate organic rose petal concentrate.</p>
                 <div class="product-actions">
-                  <button class="btn-quick-add" data-action="quick-add" data-product-id="1">Add to Bag</button>
+                  <button type="button" class="btn-quick-add" data-action="quick-add" data-product-id="1">Add to Bag</button>
                 </div>
               </div>
             </article>
@@ -484,7 +489,7 @@
                 </div>
                 <p class="product-desc">Sprouted sesame tahini base topped with organic single-origin raw cacao chunks and flaky sea salt.</p>
                 <div class="product-actions">
-                  <button class="btn-quick-add" data-action="quick-add" data-product-id="2">Add to Bag</button>
+                  <button type="button" class="btn-quick-add" data-action="quick-add" data-product-id="2">Add to Bag</button>
                 </div>
               </div>
             </article>
@@ -519,9 +524,9 @@
           <div class="footer-links">
             <a href="index.html" class="footer-link">Home</a>
             <a href="product.html" class="footer-link">Shop</a>
-            <button class="footer-link" data-action="preview-notice" data-feature="Gift Cards" style="background:none;border:none;cursor:pointer;text-align:left;padding:0;">Gift Card</button>
-            <button class="footer-link" data-action="preview-notice" data-feature="Wholesale" style="background:none;border:none;cursor:pointer;text-align:left;padding:0;">Wholesale</button>
-            <button class="footer-link" data-action="preview-notice" data-feature="Catering" style="background:none;border:none;cursor:pointer;text-align:left;padding:0;">Catering</button>
+            <button type="button" class="footer-link btn-nav-text" data-action="preview-notice" data-feature="Gift Cards">Gift Card</button>
+            <button type="button" class="footer-link btn-nav-text" data-action="preview-notice" data-feature="Wholesale">Wholesale</button>
+            <button type="button" class="footer-link btn-nav-text" data-action="preview-notice" data-feature="Catering">Catering</button>
             <a href="index.html#founderStory" class="footer-link">About Us</a>
             <a href="index.html#reviews" class="footer-link">Reviews</a>
             <a href="#footer" class="footer-link">Contact</a>
@@ -543,8 +548,8 @@
         <div class="footer-nav-col">
           <h4 class="footer-nav-title">Legal</h4>
           <div class="footer-links" style="margin-bottom: 1.5rem;">
-            <button class="footer-link" data-action="preview-notice" data-feature="Terms of Service" style="background:none;border:none;cursor:pointer;text-align:left;padding:0;">Terms of Service</button>
-            <button class="footer-link" data-action="preview-notice" data-feature="Refund Policy" style="background:none;border:none;cursor:pointer;text-align:left;padding:0;">Refund Policy</button>
+            <button type="button" class="footer-link btn-nav-text" data-action="preview-notice" data-feature="Terms of Service">Terms of Service</button>
+            <button type="button" class="footer-link btn-nav-text" data-action="preview-notice" data-feature="Refund Policy">Refund Policy</button>
           </div>
           <span class="currency-label">Currency</span>
           <div class="footer-currency-picker">
@@ -567,7 +572,7 @@
   <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitleProduct" aria-hidden="true">
     <div class="cart-drawer-header">
       <h2 id="cartTitleProduct" class="cart-drawer-title">Shopping Bag</h2>
-      <button class="cart-drawer-close" id="cartClose" data-action="close-cart" aria-label="Close shopping bag">Close</button>
+      <button type="button" class="cart-drawer-close" id="cartClose" data-action="close-cart" aria-label="Close shopping bag">Close</button>
     </div>
     
     <div class="cart-items-container" id="cartItems">
@@ -579,19 +584,19 @@
         <span class="cart-total-label">Subtotal</span>
         <span class="cart-total-value" id="cartTotal">Rs. 0</span>
       </div>
-      <button class="btn-primary btn-checkout" data-action="checkout-notice">Proceed to Checkout <i data-lucide="arrow-right" class="btn-icon" aria-hidden="true"></i></button>
+      <button type="button" class="btn-primary btn-checkout" data-action="checkout-notice">Proceed to Checkout <i data-lucide="arrow-right" class="btn-icon" aria-hidden="true"></i></button>
     </div>
   </aside>
 
   <!-- Luxury Lightbox Modal -->
   <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Image Zoom Lightbox" aria-hidden="true">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
-    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">&#10094;</button>
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
+    <button type="button" class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">&#10094;</button>
     <div class="lightbox-content">
       <img src="assets/images/products/protein-bar-peanut-butter.png" id="lightboxImg" alt="Product detailed view">
       <div class="lightbox-caption" id="lightboxCaption">Product detailed view</div>
     </div>
-    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">&#10095;</button>
+    <button type="button" class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">&#10095;</button>
   </div>
 
   <!-- Toast Notification Container -->
