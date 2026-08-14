@@ -1,6 +1,6 @@
 # Architecture Decision Records (ADRs)
 
-This document records the key architectural choices, trade-offs, and technical rationales established during the development of **Giselle's Concept**.
+This document records the key architectural choices, trade-offs, and technical rationales established during the engineering of **Giselle's Concept**.
 
 ---
 
@@ -13,7 +13,7 @@ When building a modern e-commerce concept, common defaults include React, Next.j
 Implement the entire application using semantic HTML5, modern CSS3 (Custom Properties & Grid), and Vanilla ES6+ JavaScript without external frontend frameworks.
 
 ### Consequences
-* **Positive**: Instant load time (<100ms), 0 KB JavaScript compilation payload, zero build-step requirement, maximum portability, direct DOM accessibility.
+* **Positive**: Instant initial load time (<100ms), 0 KB JavaScript compilation payload, zero build-step requirement, maximum portability, direct DOM accessibility.
 * **Negative**: Manual DOM manipulation for dynamic cart re-rendering instead of declarative component rendering.
 
 ---
@@ -21,7 +21,7 @@ Implement the entire application using semantic HTML5, modern CSS3 (Custom Prope
 ## ADR 002: Client-Side LocalStorage Shopping Bag Engine
 
 ### Context
-A complete e-commerce experience requires shopping bag state to persist across page reloads and cross-page navigation (from `index.html` to `product.html`). Without an active backend database in a static portfolio showcase, state persistence must occur client-side.
+A complete e-commerce experience requires shopping bag state to persist across page reloads and cross-page navigation (from `index.html` to `product.html`). Without an active backend database in a static showcase, state persistence must occur client-side.
 
 ### Decision
 Store normalized cart items in the browser's `localStorage` under the key `giselles_cart`. Include defensive deserialization and validation to discard corrupted or malformed data.
@@ -55,5 +55,19 @@ Scattering inline `onclick` attributes across HTML files creates tightly-coupled
 Eliminate all inline `onclick` handlers in favor of top-level document event delegation using `data-action`, `data-product-id`, and `data-feature` attributes.
 
 ### Consequences
-* **Positive**: Separation of markup and behavior; single unified event listener handles all clicks; dynamic elements automatically inherit actions without re-binding.
+* **Positive**: Clean separation of markup and behavior; single unified event listener handles all clicks; dynamically rendered elements automatically inherit actions without re-binding.
 * **Negative**: Central event switch statement must handle all action cases cleanly.
+
+---
+
+## ADR 005: Zero-Dependency Pure Node Test Strategy
+
+### Context
+Automated testing for business logic (pricing rules, subscription discounts, subtotal calculations) is essential for software quality. However, pulling in Jest or Mocha introduces hundreds of megabytes of `node_modules` dependencies.
+
+### Decision
+Utilize Node.js's native `assert` module inside `tests/cart.test.js` to execute zero-dependency pure unit smoke tests against shopping cart calculations.
+
+### Consequences
+* **Positive**: Extremely fast test execution (<50ms), zero dependency installation needed, works in any Node.js environment out of the box.
+* **Negative**: Limited to testing pure business logic without browser DOM rendering (which is verified through manual QA).

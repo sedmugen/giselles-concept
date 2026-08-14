@@ -17,7 +17,7 @@
 
 ## Overview & Motivation
 
-**Giselle's Concept** translates high-end gastronomic storytelling and metabolic wellness into an immersive digital Direct-to-Consumer (DTC) storefront. Developed as a flagship frontend portfolio piece, the project demonstrates how to achieve rich interactivity, fluid animations, conversion-focused user interfaces, and robust client-side state management without relying on heavy frontend frameworks.
+**Giselle's Concept** translates high-end gastronomic storytelling and metabolic wellness into an immersive digital Direct-to-Consumer (DTC) storefront. Developed as a flagship open-source frontend project, it demonstrates how to achieve rich interactivity, fluid animations, conversion-focused user interfaces, and robust client-side state management without relying on heavy frontend frameworks.
 
 Key engineering goals:
 * **Frameworkless Architecture**: High-performance, zero-dependency implementation utilizing pure semantic HTML5, CSS3 Custom Properties, and Vanilla ES6+ JavaScript.
@@ -92,49 +92,49 @@ flowchart TD
     F -->|Visual Feedback| A
 ```
 
-For deeper technical specifications, refer to [**`docs/architecture.md`**](docs/architecture.md) and [**`docs/decisions.md`**](docs/decisions.md).
+---
+
+## Documentation Directory
+
+| Document | Purpose |
+| :--- | :--- |
+| [**Architecture Overview**](docs/architecture.md) | In-depth technical architecture, CSS token taxonomy, and fluid typography formulas |
+| [**Setup & Installation Guide**](docs/setup.md) | Local environment configuration, Docker, Python, and deployment instructions |
+| [**User & Customer Journey Guide**](docs/usage.md) | Functional walkthrough of storefront lookbook, subscriptions, cart, and lightbox |
+| [**Developer Guidelines**](docs/development.md) | Engineering conventions, code standards, and testing procedures |
+| [**Architecture Decision Records (ADRs)**](docs/decisions.md) | Design choices covering zero-framework architecture, storage, and event delegation |
+| [**Client Component & State API**](docs/api.md) | Data schemas for product registry, cart items, and action handlers |
 
 ---
 
-## Installation & Local Development
+## Installation & Quick Start
 
 This project is zero-build and requires no compilers or npm dependencies to run.
 
-### Quick Start
+```bash
+# 1. Clone repository
+git clone https://github.com/sedmugen/giselles-concept.git
+cd giselles-concept
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/sedmugen/giselles-concept.git
-   cd giselles-concept
-   ```
+# 2. Run automated logic tests
+npm test
 
-2. **Launch with any local HTTP server**:
-
-   *Using Python 3*:
-   ```bash
-   python -m http.server 8000
-   ```
-
-   *Using Node (`npx`)*:
-   ```bash
-   npx serve .
-   ```
-
-   *Using VS Code*:
-   Right-click `index.html` and select **"Open with Live Server"**.
-
-3. **Open in browser**:
-   Navigate to `http://localhost:8000` (or `http://localhost:3000`).
+# 3. Launch local development server
+npm start
+```
+*For additional setup options (Python, Docker, VS Code Live Server), see the [Setup Guide](docs/setup.md).*
 
 ---
 
 ## Usage
 
-* **Browsing the Storefront**: Scroll through the homepage to experience the scroll-linked glassmorphism header, inspect the functional ingredient accordion, and browse signature collection cakes.
-* **Shopping & Bag Management**: Click **"Add to Bag"** or **"Add to Bag"** on any product card. The off-canvas drawer will slide open displaying line items, quantities, and real-time subtotals.
+* **Browsing the Storefront**: Scroll through the homepage to experience the scroll-linked glassmorphism header, inspect the functional ingredient accordion, and browse signature cakes.
+* **Shopping & Bag Management**: Click **"Add to Bag"** on any product card. The off-canvas drawer will slide open displaying line items, quantities, and real-time subtotals.
 * **Configuring Subscriptions**: Navigate to the [Product Page](product.html) and toggle between *One-Time Purchase* and *Subscribe & Save 15%* to observe dynamic price adjustments.
 * **Estimating Delivery Dates**: Select your shipping region inside California or outside California to calculate exact delivery arrival timelines.
 * **Viewing Pastry Textures**: Click on any product gallery image to open the high-resolution lightbox modal. Use arrow keys or click the navigation arrows to cycle through images.
+
+*For complete user flow walkthroughs, refer to the [Usage Guide](docs/usage.md).*
 
 ---
 
@@ -151,4 +151,4 @@ This project is zero-build and requires no compilers or npm dependencies to run.
 
 * **License**: Released under the [MIT License](LICENSE).
 * **Author**: Created and maintained by [**sedmugen**](https://github.com/sedmugen).
-* **Brand Concept**: Conceptually inspired by *Giselle's Vegan Kitchen* (Los Angeles, CA). All imagery and trademark concept assets are curated for educational, non-commercial portfolio demonstration.
+* **Brand Concept**: Conceptually inspired by *Giselle's Vegan Kitchen* (Los Angeles, CA). All imagery and trademark concept assets are curated for educational, non-commercial open-source demonstration.
