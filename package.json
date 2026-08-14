@@ -5,7 +5,8 @@
   "main": "script.js",
   "scripts": {
     "test": "node tests/cart.test.js",
-    "start": "npx serve ."
+    "start": "npx serve .",
+    "capture": "node scripts/capture-screenshots.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,9 @@
   ],
   "author": "sedmugen",
   "license": "MIT",
+  "devDependencies": {
+    "playwright": "^1.42.0"
+  },
   "bugs": {
     "url": "https://github.com/sedmugen/giselles-concept/issues"
   },
