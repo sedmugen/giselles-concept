@@ -5,13 +5,28 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Vanilla JS](https://img.shields.io/badge/Stack-Vanilla%20JS%20%7C%20HTML5%20%7C%20CSS3-f7df1e.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![WCAG AA](https://img.shields.io/badge/Accessibility-WCAG%20AA-success.svg)](https://www.w3.org/WAI/standards-guidelines/wcag/)
+[![CI](https://github.com/sedmugen/giselles-concept/actions/workflows/ci.yml/badge.svg)](https://github.com/sedmugen/giselles-concept/actions)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 ---
 
 ## Visual Showcase
 
-![Giselle's Concept Responsive Showcase](assets/mockups/hero-showcase.jpg)
+![Giselle's Concept Presentation Banner](assets/mockups/hero-showcase.jpg)
+
+### Application Interface & Experience Gallery
+
+| Desktop Storefront Lookbook | Product Detail & Customizer |
+| :---: | :---: |
+| ![Desktop Storefront Hero](assets/images/screenshots/storefront-hero.png) | ![Product Detail Page](assets/images/screenshots/product-detail.png) |
+
+| Sliding Shopping Bag Drawer | High-Resolution Lightbox Modal |
+| :---: | :---: |
+| ![Cart Drawer with Active Line Items](assets/images/screenshots/cart-drawer.png) | ![Product Texture Lightbox Modal](assets/images/screenshots/product-lightbox.png) |
+
+| Mobile Responsive Storefront | Mobile Product Experience |
+| :---: | :---: |
+| ![Mobile Storefront Viewport](assets/images/screenshots/mobile-storefront.png) | ![Mobile Product Customizer](assets/images/screenshots/mobile-product.png) |
 
 ---
 
@@ -109,7 +124,7 @@ flowchart TD
 
 ## Installation & Quick Start
 
-This project is zero-build and requires no compilers or npm dependencies to run.
+This project is zero-build and runs in any modern browser.
 
 ```bash
 # 1. Clone repository
@@ -143,7 +158,7 @@ npm start
 - [ ] **Stripe Elements Integration**: Client-side Stripe checkout session integration for end-to-end payment processing.
 - [ ] **Multi-Currency Converter**: Real-time exchange rate calculation between USD, EUR, GBP, and PKR.
 - [ ] **Headless CMS Connector**: Dynamic product and recipe catalog ingestion via Contentful or Sanity API.
-- [ ] **Automated E2E Tests**: Playwright smoke test suite for cart drawer lifecycle and checkout flows.
+- [ ] **Automated E2E Tests**: Playwright test suite for cart drawer lifecycle and checkout flows.
 
 ---
 

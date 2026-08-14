@@ -6,12 +6,16 @@ This document details the functional capabilities, user interactions, and e-comm
 
 ## 1. Storefront & Lookbook Experience (`index.html`)
 
+![Desktop Storefront Hero](../assets/images/screenshots/storefront-hero.png)
+
 ### 1.1 Dynamic Scroll-Linked Navigation
 * **Dual Header State**: The navigation header sits transparently over the dark fullscreen lookbook hero initially. When the user scrolls past 40px, the header smoothly transitions into an opaque glassmorphic white surface (`backdrop-filter: blur(24px)`).
 * **Logo Scroll Reveal**: On the homepage, the centered SVG logo mark in the hero automatically fades out at 25% viewport scroll threshold, appearing simultaneously in the top sticky navigation bar to maximize content viewability.
 * **Mobile Drawer Navigation**: Viewports under 991px feature an accessible hamburger button that animates into an "X" and slides in a full-height navigation panel. Pressing the `Escape` key automatically closes the menu.
 
 ### 1.2 Interactive Ingredients Ledger
+![Ingredients Accordion Interface](../assets/images/screenshots/storefront-ingredients.png)
+
 * **Functional Accordion**: Users can click any of the 3 signature ingredient cards (*Raw Criollo Cacao*, *Sprouted Almonds*, *Coconut Blossom Nectar*).
 * **Visual Synchrony**: Expanding an ingredient card triggers a subtle scale-pulse on the accompanying high-resolution ingredient photography, providing immediate visual feedback.
 
@@ -23,7 +27,11 @@ This document details the functional capabilities, user interactions, and e-comm
 
 ## 2. Product Customization & Detail Workflow (`product.html`)
 
+![Product Detail Page](../assets/images/screenshots/product-detail.png)
+
 ### 2.1 Fullscreen Pastry Texture Lightbox
+![Product Texture Lightbox Modal](../assets/images/screenshots/product-lightbox.png)
+
 * **Zoom Interaction**: Clicking any image in the vertical product gallery stack triggers an accessible modal overlay with a dark scrim (`backdrop-filter: blur(15px)`).
 * **Keyboard Navigation**:
   * `Escape`: Closes the lightbox and restores background scroll.
@@ -51,6 +59,8 @@ This document details the functional capabilities, user interactions, and e-comm
 
 ## 3. Shopping Bag State & Operations (`script.js`)
 
+![Sliding Cart Drawer](../assets/images/screenshots/cart-drawer.png)
+
 ```mermaid
 stateDiagram-v2
     [*] --> EmptyBag: Initial Session
@@ -66,3 +76,11 @@ stateDiagram-v2
 * **Subtotal Engine**: Calculates item prices against unit quantities in real time.
 * **Persistence**: Refreshing or navigating between `index.html` and `product.html` retains all items via `localStorage.getItem('giselles_cart')`.
 * **Toast Notification Engine**: Non-blocking toast notifications appear at the bottom-right corner for shopping actions, newsletter subscriptions, and feature previews.
+
+---
+
+## 4. Mobile Responsive Experience
+
+| Mobile Storefront View | Mobile Product Experience |
+| :---: | :---: |
+| ![Mobile Storefront](../assets/images/screenshots/mobile-storefront.png) | ![Mobile Product Customizer](../assets/images/screenshots/mobile-product.png) |
