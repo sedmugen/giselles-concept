@@ -51,6 +51,531 @@ const PRODUCT_REGISTRY = {
 };
 
 /**
+ * ==========================================================================
+ * Showcase Recording Engine Module
+ * ==========================================================================
+ * Manages cinematic screen-recording navigation, section snapping, internal
+ * step cycling, URL query parameter overrides, and HUD status overlay.
+ */
+const ShowcaseRecorder = (() => {
+  const STORAGE_KEY_RECORD = 'giselles_recording_mode';
+  const STORAGE_KEY_HUD = 'giselles_recording_hud';
+
+  let isRecordingMode = true; // Default ON on this branch
+  let isHudVisible = false;   // Default OFF
+  let isNavigating = false;
+  let activeSectionIndex = 0;
+  let sections = [];
+  let hudElement = null;
+
+  /**
+   * Determine initial mode and HUD state from URL params and localStorage
+   */
+  const loadState = () => {
+    // 1. Check client-side persistence (localStorage)
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const savedRecord = localStorage.getItem(STORAGE_KEY_RECORD);
+        if (savedRecord !== null) {
+          isRecordingMode = savedRecord === 'true';
+        } else {
+          isRecordingMode = true; // Default ON
+        }
+
+        const savedHud = localStorage.getItem(STORAGE_KEY_HUD);
+        if (savedHud !== null) {
+          isHudVisible = savedHud === 'true';
+        } else {
+          isHudVisible = false; // Default OFF
+        }
+      }
+    } catch {
+      isRecordingMode = true;
+      isHudVisible = false;
+    }
+
+    // 2. Apply URL parameter overrides if present (?record=1/0, ?hud=1/0)
+    try {
+      if (typeof window !== 'undefined' && window.location && window.location.search) {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('record')) {
+          const r = params.get('record');
+          if (r === '1' || r === 'true') isRecordingMode = true;
+          if (r === '0' || r === 'false') isRecordingMode = false;
+        }
+        if (params.has('hud')) {
+          const h = params.get('hud');
+          if (h === '1' || h === 'true') isHudVisible = true;
+          if (h === '0' || h === 'false') isHudVisible = false;
+        }
+      }
+    } catch {
+      // Graceful fallback
+    }
+  };
+
+  /**
+   * Scan and register major page sections dynamically
+   */
+  const scanSections = () => {
+    if (typeof document === 'undefined') return;
+
+    const isHomePage = document.body && document.body.classList.contains('home-page');
+    let sectionDefs = [];
+
+    if (isHomePage) {
+      sectionDefs = [
+        { selector: '#hero', title: 'Hero Lookbook' },
+        { selector: '.trust-bar', title: 'Accolades & Press' },
+        { selector: '#bestSellers', title: 'Signature Best Sellers' },
+        { selector: '#founderStory', title: 'Founder Philosophy' },
+        { selector: '#ingredients', title: 'Functional Ingredients' },
+        { selector: '#reviews', title: 'Client Testimony & Press' },
+        { selector: '#cta', title: 'The Kitchen Ledger' },
+        { selector: '#footer', title: 'Footer & Directory' }
+      ];
+    } else {
+      sectionDefs = [
+        { selector: '.product-page-section', title: 'Product Showcase & Hero' },
+        { selector: '.product-nutrition-block', title: 'Nutritional Profiles' },
+        { selector: '.product-ingredients-block', title: 'Product Details & Storage' },
+        { selector: '.product-lifestyle-block', title: 'Brand Lifestyle & Craft' },
+        { selector: '.product-reviews-block', title: 'Verified Client Testimony' },
+        { selector: '#relatedProducts', title: 'Complete Your Ritual' },
+        { selector: '#footer', title: 'Footer & Directory' }
+      ];
+    }
+
+    sections = [];
+    sectionDefs.forEach(def => {
+      const el = document.querySelector(def.selector);
+      if (el) {
+        sections.push({
+          element: el,
+          selector: def.selector,
+          title: def.title
+        });
+      }
+    });
+  };
+
+  /**
+   * Safe Scrolled Header Height Helper
+   */
+  const getHeaderHeight = () => {
+    if (typeof document === 'undefined') return 70;
+    const header = document.getElementById('mainHeader');
+    if (!header) return 0;
+    return header.classList.contains('scrolled') ? header.offsetHeight : Math.min(header.offsetHeight, 75);
+  };
+
+  /**
+   * Calculate current active section from window scroll position
+   */
+  const getIndexFromScroll = () => {
+    if (sections.length === 0 || typeof window === 'undefined') return 0;
+    
+    // Check bottom of page
+    if ((window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 60)) {
+      return sections.length - 1;
+    }
+
+    const headerHeight = getHeaderHeight();
+    const scrollPos = window.scrollY + headerHeight + (window.innerHeight * 0.25);
+
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const rect = sections[i].element.getBoundingClientRect();
+      const topOffset = rect.top + window.scrollY;
+      if (scrollPos >= topOffset) {
+        return i;
+      }
+    }
+    return 0;
+  };
+
+  /**
+   * Create and mount the Recording HUD DOM element
+   */
+  const createHud = () => {
+    if (typeof document === 'undefined' || !document.body) return;
+
+    if (document.getElementById('recordingHud')) {
+      hudElement = document.getElementById('recordingHud');
+      return;
+    }
+
+    hudElement = document.createElement('aside');
+    hudElement.id = 'recordingHud';
+    hudElement.className = 'recording-hud';
+    hudElement.setAttribute('aria-label', 'Showcase Recording HUD');
+    hudElement.setAttribute('aria-live', 'polite');
+
+    hudElement.innerHTML = `
+      <div class="recording-hud-badge is-rec" id="hudBadge">
+        <span class="hud-dot" aria-hidden="true"></span>
+        <span id="hudBadgeText">REC</span>
+      </div>
+      <div class="recording-hud-section">
+        <span class="recording-hud-index" id="hudIndex">01 / 08</span>
+        <span class="recording-hud-title" id="hudTitle">Hero Lookbook</span>
+        <span class="recording-hud-substep" id="hudSubstep" style="display: none;"></span>
+      </div>
+      <div class="recording-hud-divider"></div>
+      <div class="recording-hud-shortcuts">
+        <span><kbd>↑</kbd><kbd>↓</kbd> Section</span>
+        <span><kbd>←</kbd><kbd>→</kbd> Step</span>
+        <span><kbd>H</kbd> HUD</span>
+        <span><kbd>R</kbd> Mode</span>
+      </div>
+    `;
+
+    document.body.appendChild(hudElement);
+  };
+
+  /**
+   * Extract sub-step contextual metadata for current section
+   */
+  const getSubstepInfo = (currentSec) => {
+    if (!currentSec || !currentSec.element) return null;
+
+    // Lightbox modal active
+    const lightboxModal = document.getElementById('lightboxModal');
+    if (lightboxModal && lightboxModal.classList.contains('active')) {
+      const caption = document.getElementById('lightboxCaption');
+      return caption ? `Photo: ${caption.textContent}` : 'Gallery Lightbox';
+    }
+
+    // Ingredients accordion
+    const ingredientItems = currentSec.element.querySelectorAll('.ingredient-item');
+    if (ingredientItems.length > 0) {
+      let activeIdx = Array.from(ingredientItems).findIndex(item => item.classList.contains('active'));
+      if (activeIdx < 0) activeIdx = 0;
+      const name = ingredientItems[activeIdx].querySelector('.ingredient-name')?.textContent || '';
+      return `${activeIdx + 1}/${ingredientItems.length}: ${name.trim()}`;
+    }
+
+    // Press reviews carousel
+    const reviewDots = currentSec.element.querySelectorAll('.review-dot');
+    if (reviewDots.length > 0) {
+      let activeIdx = Array.from(reviewDots).findIndex(dot => dot.classList.contains('active'));
+      if (activeIdx < 0) activeIdx = 0;
+      const activeSlide = document.getElementById(`slide-${activeIdx}`);
+      const author = activeSlide ? (activeSlide.querySelector('.review-author')?.textContent || '') : '';
+      return `Review ${activeIdx + 1}/${reviewDots.length}${author ? ' (' + author.trim() + ')' : ''}`;
+    }
+
+    // Purchase option on product detail
+    const checkedOption = currentSec.element.querySelector('input[name="purchase-option"]:checked');
+    if (checkedOption) {
+      return checkedOption.value === 'subscription' ? 'Option: Subscribe & Save 15%' : 'Option: One-Time Purchase';
+    }
+
+    return null;
+  };
+
+  /**
+   * Update HUD display elements and classes
+   */
+  const updateHud = () => {
+    if (!hudElement) return;
+
+    if (isHudVisible) {
+      hudElement.classList.add('active');
+    } else {
+      hudElement.classList.remove('active');
+    }
+
+    const badge = document.getElementById('hudBadge');
+    const badgeText = document.getElementById('hudBadgeText');
+    const indexSpan = document.getElementById('hudIndex');
+    const titleSpan = document.getElementById('hudTitle');
+    const substepSpan = document.getElementById('hudSubstep');
+
+    if (isRecordingMode) {
+      if (badge) badge.className = 'recording-hud-badge is-rec';
+      if (badgeText) badgeText.textContent = 'REC';
+    } else {
+      if (badge) badge.className = 'recording-hud-badge is-off';
+      if (badgeText) badgeText.textContent = 'STANDBY';
+    }
+
+    const currentIdx = isNavigating ? activeSectionIndex : getIndexFromScroll();
+    activeSectionIndex = currentIdx;
+
+    if (sections.length > 0 && sections[currentIdx]) {
+      const currentSec = sections[currentIdx];
+      const padIndex = String(currentIdx + 1).padStart(2, '0');
+      const padTotal = String(sections.length).padStart(2, '0');
+      if (indexSpan) indexSpan.textContent = `${padIndex} / ${padTotal}`;
+      if (titleSpan) titleSpan.textContent = currentSec.title;
+
+      const subInfo = getSubstepInfo(currentSec);
+      if (substepSpan) {
+        if (subInfo) {
+          substepSpan.textContent = subInfo;
+          substepSpan.style.display = 'inline-block';
+        } else {
+          substepSpan.style.display = 'none';
+        }
+      }
+    }
+  };
+
+  /**
+   * Smoothly navigate to specific section index with anti-jitter transition lock
+   */
+  const scrollToSection = (index) => {
+    if (index < 0 || index >= sections.length || typeof window === 'undefined') return;
+    activeSectionIndex = index;
+    isNavigating = true;
+
+    const target = sections[index];
+    const targetEl = target.element;
+    let targetTop = 0;
+
+    if (index === 0) {
+      targetTop = 0;
+    } else {
+      const headerHeight = getHeaderHeight();
+      targetTop = targetEl.getBoundingClientRect().top + window.scrollY - headerHeight;
+    }
+
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: 'smooth'
+    });
+
+    updateHud();
+
+    // Prevent key-repeat and interrupted transitions
+    setTimeout(() => {
+      isNavigating = false;
+      updateHud();
+    }, 650);
+  };
+
+  /**
+   * Horizontal step navigation inside active section (cards/accordion/reviews/lightbox)
+   */
+  const handleHorizontalStep = (direction) => {
+    // 1. Check if Lightbox modal is open
+    const lightboxModal = document.getElementById('lightboxModal');
+    if (lightboxModal && lightboxModal.classList.contains('active')) {
+      if (direction === 1) {
+        const nextBtn = document.getElementById('lightboxNext');
+        if (nextBtn) nextBtn.click();
+      } else {
+        const prevBtn = document.getElementById('lightboxPrev');
+        if (prevBtn) prevBtn.click();
+      }
+      setTimeout(updateHud, 100);
+      return true;
+    }
+
+    const currentIdx = getIndexFromScroll();
+    const currentSec = sections[currentIdx];
+    if (!currentSec || !currentSec.element) return false;
+
+    // 2. Ingredients Accordion
+    const ingredientItems = currentSec.element.querySelectorAll('.ingredient-item');
+    if (ingredientItems.length > 0) {
+      let activeItemIdx = Array.from(ingredientItems).findIndex(item => item.classList.contains('active'));
+      if (activeItemIdx === -1) activeItemIdx = 0;
+      let nextItemIdx = (activeItemIdx + direction + ingredientItems.length) % ingredientItems.length;
+      ingredientItems[nextItemIdx].click();
+      setTimeout(updateHud, 100);
+      return true;
+    }
+
+    // 3. Reviews Carousel
+    const reviewDots = currentSec.element.querySelectorAll('.review-dot');
+    if (reviewDots.length > 0) {
+      let activeDotIdx = Array.from(reviewDots).findIndex(dot => dot.classList.contains('active'));
+      if (activeDotIdx === -1) activeDotIdx = 0;
+      let nextDotIdx = (activeDotIdx + direction + reviewDots.length) % reviewDots.length;
+      reviewDots[nextDotIdx].click();
+      setTimeout(updateHud, 100);
+      return true;
+    }
+
+    // 4. Product detail purchase options
+    const purchaseOptions = currentSec.element.querySelectorAll('input[name="purchase-option"]');
+    if (purchaseOptions.length > 1) {
+      let checkedIdx = Array.from(purchaseOptions).findIndex(opt => opt.checked);
+      if (checkedIdx === -1) checkedIdx = 0;
+      let nextIdx = (checkedIdx + direction + purchaseOptions.length) % purchaseOptions.length;
+      purchaseOptions[nextIdx].checked = true;
+      purchaseOptions[nextIdx].dispatchEvent(new Event('change', { bubbles: true }));
+      setTimeout(updateHud, 100);
+      return true;
+    }
+
+    return false;
+  };
+
+  /**
+   * Check if keyboard focus is within an interactive form element
+   */
+  const isInputFocused = () => {
+    if (typeof document === 'undefined') return false;
+    const active = document.activeElement;
+    if (!active) return false;
+    const tag = active.tagName ? active.tagName.toLowerCase() : '';
+    return tag === 'input' || tag === 'textarea' || tag === 'select' || active.isContentEditable;
+  };
+
+  /**
+   * Global Keyboard Shortcut Controller
+   */
+  const initKeyListeners = () => {
+    if (typeof document === 'undefined') return;
+
+    document.addEventListener('keydown', (e) => {
+      if (isInputFocused()) return;
+
+      const key = e.key;
+
+      // Toggle Recording Mode: 'R' / 'r'
+      if (key === 'r' || key === 'R') {
+        e.preventDefault();
+        isRecordingMode = !isRecordingMode;
+        try {
+          localStorage.setItem(STORAGE_KEY_RECORD, String(isRecordingMode));
+        } catch {}
+        updateHud();
+        if (typeof GisellesApp !== 'undefined' && typeof GisellesApp.showToast === 'function') {
+          GisellesApp.showToast(
+            'Recording Mode',
+            isRecordingMode ? 'Showcase Recording Mode: ON (Section Snapping active)' : 'Showcase Recording Mode: OFF (Normal browsing)',
+            'gold'
+          );
+        }
+        return;
+      }
+
+      // Toggle Recording HUD: 'H' / 'h'
+      if (key === 'h' || key === 'H') {
+        e.preventDefault();
+        isHudVisible = !isHudVisible;
+        try {
+          localStorage.setItem(STORAGE_KEY_HUD, String(isHudVisible));
+        } catch {}
+        updateHud();
+        if (typeof GisellesApp !== 'undefined' && typeof GisellesApp.showToast === 'function') {
+          GisellesApp.showToast(
+            'Recording HUD',
+            isHudVisible ? 'Recording HUD: Visible' : 'Recording HUD: Hidden',
+            'gold'
+          );
+        }
+        return;
+      }
+
+      // If Recording Mode is OFF, do not intercept navigation keys
+      if (!isRecordingMode) return;
+
+      // Vertical section navigation
+      if (key === 'ArrowDown' || key === 'PageDown') {
+        e.preventDefault();
+        if (isNavigating) return;
+        const currentIdx = getIndexFromScroll();
+        if (currentIdx < sections.length - 1) {
+          scrollToSection(currentIdx + 1);
+        }
+        return;
+      }
+
+      if (key === 'ArrowUp' || key === 'PageUp') {
+        e.preventDefault();
+        if (isNavigating) return;
+        const currentIdx = getIndexFromScroll();
+        if (currentIdx > 0) {
+          scrollToSection(currentIdx - 1);
+        }
+        return;
+      }
+
+      if (key === 'Home') {
+        e.preventDefault();
+        if (isNavigating) return;
+        scrollToSection(0);
+        return;
+      }
+
+      if (key === 'End') {
+        e.preventDefault();
+        if (isNavigating) return;
+        scrollToSection(sections.length - 1);
+        return;
+      }
+
+      // Horizontal step navigation
+      if (key === 'ArrowRight' || key === 'ArrowLeft') {
+        const handled = handleHorizontalStep(key === 'ArrowRight' ? 1 : -1);
+        if (handled) {
+          e.preventDefault();
+        }
+      }
+    });
+
+    // Passive scroll tracking for HUD accuracy
+    window.addEventListener('scroll', () => {
+      if (!isNavigating) {
+        updateHud();
+      }
+    }, { passive: true });
+  };
+
+  /**
+   * Initialize Showcase Recording Engine
+   */
+  const init = () => {
+    loadState();
+    scanSections();
+    createHud();
+    initKeyListeners();
+    updateHud();
+  };
+
+  return {
+    init,
+    loadState,
+    scanSections,
+    getState: () => ({
+      isRecordingMode,
+      isHudVisible,
+      isNavigating,
+      activeSectionIndex,
+      sectionsCount: sections.length
+    }),
+    toggleRecordingMode: () => {
+      isRecordingMode = !isRecordingMode;
+      try { localStorage.setItem(STORAGE_KEY_RECORD, String(isRecordingMode)); } catch {}
+      updateHud();
+      return isRecordingMode;
+    },
+    toggleHud: () => {
+      isHudVisible = !isHudVisible;
+      try { localStorage.setItem(STORAGE_KEY_HUD, String(isHudVisible)); } catch {}
+      updateHud();
+      return isHudVisible;
+    },
+    scrollToSection,
+    nextSection: () => {
+      const idx = getIndexFromScroll();
+      if (idx < sections.length - 1) scrollToSection(idx + 1);
+    },
+    prevSection: () => {
+      const idx = getIndexFromScroll();
+      if (idx > 0) scrollToSection(idx - 1);
+    },
+    stepHorizontal: (dir) => handleHorizontalStep(dir),
+    getSections: () => sections,
+    updateHud
+  };
+})();
+
+/**
  * Main Application Module
  */
 const GisellesApp = (() => {
@@ -78,6 +603,7 @@ const GisellesApp = (() => {
     initDeliveryEstimator();
     initGlobalActionDelegation();
     initKeyboardNavigation();
+    ShowcaseRecorder.init();
   };
 
   /**
@@ -732,9 +1258,18 @@ const GisellesApp = (() => {
     removeFromCart,
     openCartDrawer,
     closeCartDrawer,
-    showToast
+    showToast,
+    recorder: ShowcaseRecorder
   };
 })();
 
+// Export for Node.js test environment if applicable
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { GisellesApp, ShowcaseRecorder, PRODUCT_REGISTRY };
+}
+
 // Initialize on DOM Ready
-document.addEventListener('DOMContentLoaded', GisellesApp.init);
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', GisellesApp.init);
+}
+

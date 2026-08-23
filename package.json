@@ -4,7 +4,7 @@
   "description": "Luxury organic wellness bakery e-commerce experience featuring artisanal plant-based pastries, responsive lookbook UI, and client-side cart engine.",
   "main": "script.js",
   "scripts": {
-    "test": "node tests/cart.test.js",
+    "test": "node tests/cart.test.js && node tests/recording-mode.test.js && node tests/walkthrough.test.js",
     "start": "npx serve .",
     "capture": "node scripts/capture-screenshots.js"
   },
