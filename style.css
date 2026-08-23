@@ -25,9 +25,9 @@
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
   /* Spacing */
-  --section-padding: 12rem 8vw;
-  --section-padding-mobile: 7rem 6vw;
-  --grid-gap: clamp(2rem, 5vw, 6rem);
+  --section-padding: clamp(3.5rem, 6vh, 5.5rem) clamp(2rem, 5vw, 6rem);
+  --section-padding-mobile: 4rem 6vw;
+  --grid-gap: clamp(1.5rem, 4vw, 5rem);
   --container-width: 1440px;
   
   /* Radii & Shadows */
@@ -828,18 +828,24 @@ img {
    Trust Bar
    ========================================================================== */
 .trust-bar {
-  padding: 6rem 8vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(3rem, 6vh, 6rem) clamp(2rem, 6vw, 8rem);
   background-color: var(--bg-secondary);
   border-top: 1px solid rgba(28, 27, 24, 0.04);
   border-bottom: 1px solid rgba(28, 27, 24, 0.04);
   text-align: center;
+  box-sizing: border-box;
 }
 
 .trust-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: clamp(1.5rem, 3vh, 2.5rem);
   max-width: 900px;
   margin: 0 auto;
 }
@@ -910,21 +916,27 @@ img {
    Best Sellers Section
    ========================================================================== */
 .best-sellers {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: var(--section-padding);
+  box-sizing: border-box;
 }
 
 .section-intro {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 6rem;
+  margin-bottom: clamp(1.6rem, 3.2vh, 3.2rem);
   max-width: var(--container-width);
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
 }
 
 .section-title {
-  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
@@ -932,9 +944,10 @@ img {
 .best-sellers-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(2rem, 4vw, 5rem);
+  gap: clamp(1.5rem, 3vw, 3.5rem);
   max-width: var(--container-width);
   margin: 0 auto;
+  width: 100%;
 }
 
 .product-card-wrapper {
@@ -944,7 +957,7 @@ img {
 .product-card {
   background: var(--card-bg);
   border-radius: var(--card-radius);
-  padding: 1.8rem;
+  padding: clamp(1.2rem, 1.8vw, 1.6rem);
   border: 1px solid var(--border-color);
   box-shadow: var(--card-shadow);
   transition: transform var(--transition-medium), box-shadow var(--transition-medium), border-color var(--transition-medium);
@@ -965,7 +978,7 @@ img {
   overflow: hidden;
   aspect-ratio: 1/1;
   background-color: var(--bg-primary);
-  margin-bottom: 2.2rem;
+  margin-bottom: clamp(1rem, 1.8vh, 1.6rem);
 }
 
 .product-image {
@@ -988,30 +1001,30 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.4rem;
 }
 
 .product-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
   color: var(--text-primary);
   font-weight: 400;
 }
 
 .product-price {
   font-family: var(--font-sans);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--accent-gold);
 }
 
 .product-desc {
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--text-secondary);
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.8rem;
 }
 
 .product-actions {
@@ -1020,13 +1033,13 @@ img {
 
 .btn-quick-add {
   width: 100%;
-  padding: 1.1rem;
+  padding: 0.9rem;
   background-color: transparent;
   border: 1px solid var(--border-color-strong);
   color: var(--text-primary);
   border-radius: var(--btn-radius);
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -1044,8 +1057,13 @@ img {
    Founder Story
    ========================================================================== */
 .founder-story {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: var(--section-padding);
   background-color: var(--bg-secondary);
+  box-sizing: border-box;
 }
 
 .founder-grid {
@@ -1055,12 +1073,14 @@ img {
   align-items: center;
   max-width: var(--container-width);
   margin: 0 auto;
+  width: 100%;
 }
 
 .founder-image-wrapper {
   border-radius: var(--card-radius);
   overflow: hidden;
   aspect-ratio: 4/5;
+  max-height: clamp(320px, 56vh, 520px);
   box-shadow: var(--card-shadow);
 }
 
@@ -1075,29 +1095,29 @@ img {
 }
 
 .founder-content {
-  padding-left: clamp(2rem, 5vw, 6rem);
+  padding-left: clamp(1.5rem, 4vw, 5rem);
 }
 
 .founder-quote {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.5vw, 3.8rem);
-  line-height: 1.1;
+  font-size: clamp(1.8rem, 2.8vw, 3.2rem);
+  line-height: 1.15;
   color: var(--text-primary);
-  margin-bottom: 3rem;
+  margin-bottom: clamp(1rem, 2.2vh, 2.2rem);
 }
 
 .founder-text {
   font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
   font-weight: 300;
-  line-height: 1.8;
+  line-height: 1.75;
   color: var(--text-secondary);
-  margin-bottom: 3.5rem;
+  margin-bottom: clamp(1.5rem, 2.8vh, 2.8rem);
 }
 
 .founder-signature {
   font-family: var(--font-serif);
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-style: italic;
   color: var(--text-primary);
   display: flex;
@@ -1118,7 +1138,12 @@ img {
    Ingredient Showcase
    ========================================================================== */
 .ingredients {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: var(--section-padding);
+  box-sizing: border-box;
 }
 
 .ingredients-grid {
@@ -1128,19 +1153,20 @@ img {
   align-items: center;
   max-width: var(--container-width);
   margin: 0 auto;
+  width: 100%;
 }
 
 .ingredients-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: clamp(0.8rem, 1.6vh, 1.4rem);
 }
 
 .ingredient-item {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--card-radius);
-  padding: 2.2rem;
+  padding: clamp(1.2rem, 1.8vh, 1.8rem) clamp(1.4rem, 2vw, 2.2rem);
   box-shadow: var(--card-shadow);
   cursor: pointer;
   transition: border-color var(--transition-medium), box-shadow var(--transition-medium);
@@ -1159,7 +1185,7 @@ img {
 
 .ingredient-name {
   font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+  font-size: clamp(1.4rem, 2vw, 2rem);
   color: var(--text-secondary);
   transition: color var(--transition-medium);
 }
@@ -1176,14 +1202,14 @@ img {
 }
 
 .ingredient-item.active .ingredient-details {
-  max-height: 220px;
+  max-height: 180px;
 }
 
 .ingredient-desc {
-  margin-top: 1.5rem;
-  font-size: 0.95rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.65;
   max-width: 580px;
 }
 
@@ -1191,6 +1217,7 @@ img {
   border-radius: var(--card-radius);
   overflow: hidden;
   aspect-ratio: 1/1;
+  max-height: clamp(300px, 52vh, 480px);
   box-shadow: var(--card-shadow);
   background-color: var(--bg-secondary);
 }
@@ -1206,12 +1233,17 @@ img {
    Reviews Section
    ========================================================================== */
 .reviews {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: var(--section-padding);
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .reviews-container {
@@ -1219,11 +1251,12 @@ img {
   margin: 0 auto;
   text-align: center;
   position: relative;
+  width: 100%;
 }
 
 .reviews-slider {
   position: relative;
-  min-height: 320px;
+  min-height: clamp(160px, 24vh, 240px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1246,7 +1279,7 @@ img {
 }
 
 .review-rating {
-  margin-bottom: 2.5rem;
+  margin-bottom: clamp(1rem, 2vh, 2rem);
   display: flex;
   justify-content: center;
   gap: 0.25rem;
@@ -1261,10 +1294,10 @@ img {
 
 .review-quote {
   font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  font-size: clamp(1.6rem, 2.6vw, 2.8rem);
   line-height: 1.25;
   color: var(--text-primary);
-  margin-bottom: 3rem;
+  margin-bottom: clamp(1.5rem, 2.5vh, 2.5rem);
 }
 
 .review-author {
@@ -1280,7 +1313,7 @@ img {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin-top: 2rem;
+  margin-top: clamp(1rem, 2vh, 2rem);
 }
 
 .review-dot {
@@ -1304,24 +1337,30 @@ img {
    Call To Action (CTA) & Newsletter
    ========================================================================== */
 .cta {
-  padding: 10rem 8vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--section-padding);
   background-color: var(--bg-primary);
   text-align: center;
+  box-sizing: border-box;
 }
 
 .cta-container {
   max-width: 800px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .cta-icon-wrapper {
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(0.8rem, 1.5vh, 1.5rem);
   color: var(--accent-gold);
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 54px;
-  height: 54px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background-color: var(--white);
   box-shadow: var(--card-shadow);
@@ -1335,19 +1374,19 @@ img {
 }
 
 .cta-title {
-  font-size: clamp(3.2rem, 7.2vw, 7.5rem);
+  font-size: clamp(2.6rem, 5.5vw, 5.5rem);
   line-height: 1.05;
   color: var(--text-primary);
-  margin-bottom: 2.5rem;
+  margin-bottom: clamp(1rem, 2vh, 2rem);
 }
 
 .cta-subtitle {
   font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
   font-weight: 300;
   line-height: 1.6;
   color: var(--text-secondary);
-  margin-bottom: 4rem;
+  margin-bottom: clamp(2rem, 3.5vh, 3.5rem);
 }
 
 .cta-form {
@@ -1405,17 +1444,23 @@ img {
    Footer
    ========================================================================== */
 .footer {
-  padding: 9rem 8vw 4rem 8vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(4rem, 6vh, 6rem) 8vw clamp(2rem, 3vh, 3rem) 8vw;
   background-color: #1C1B18;
   color: #E2DDD5;
+  box-sizing: border-box;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
-  gap: 5rem;
+  gap: clamp(2rem, 4vw, 4.5rem);
   max-width: var(--container-width);
-  margin: 0 auto 7rem auto;
+  margin: 0 auto clamp(2rem, 4vh, 4.5rem) auto;
+  width: 100%;
 }
 
 .footer-brand {
