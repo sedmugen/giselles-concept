@@ -594,6 +594,7 @@ const GisellesApp = (() => {
     initScrollHeader();
     initMobileMenu();
     initScrollReveal();
+    initScrollParallax();
     initIngredientsAccordion();
     initReviewSlider();
     initCartDrawer();
@@ -928,6 +929,46 @@ const GisellesApp = (() => {
     });
 
     revealElements.forEach(el => observer.observe(el));
+  };
+
+  /**
+   * Bi-directional Scroll Tracking & Parallax Depth Motion
+   */
+  const initScrollParallax = () => {
+    if (typeof window === 'undefined') return;
+
+    const heroBg = document.querySelector('.hero-bg-image');
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    const updateParallax = () => {
+      const currentScrollY = window.scrollY;
+
+      // Scroll Direction Attribute
+      if (document.body) {
+        if (currentScrollY > lastScrollY && currentScrollY > 60) {
+          document.body.setAttribute('data-scroll-dir', 'down');
+        } else if (currentScrollY < lastScrollY) {
+          document.body.setAttribute('data-scroll-dir', 'up');
+        }
+      }
+      lastScrollY = currentScrollY;
+
+      // Subtle Hero Background Parallax
+      if (heroBg && currentScrollY < window.innerHeight) {
+        const offset = currentScrollY * 0.22;
+        heroBg.style.transform = `translate3d(0, ${offset}px, 0)`;
+      }
+
+      ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
   };
 
   /**
