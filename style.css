@@ -729,7 +729,6 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: heroLogoEntrance 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 .hero-logo-overlay {
@@ -740,6 +739,7 @@ img {
   opacity: 0.95;
   user-select: none;
   pointer-events: none;
+  animation: heroLogoEntrance 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
   transition: opacity var(--transition-medium), transform var(--transition-medium);
 }
 
